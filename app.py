@@ -1,40 +1,35 @@
-# Install required packages if missing
-import subprocess
-import sys
-import importlib
-
-# List of required packages
-required_packages = [
-    'scikit-learn==1.3.2',
-    'pandas==2.0.3',
-    'matplotlib==3.7.2',
-    'numpy==1.24.3'
-]
-
-# Check and install missing packages
-for package in required_packages:
-    package_name = package.split('==')[0]
-    try:
-        importlib.import_module(package_name if package_name != 'scikit-learn' else 'sklearn')
-    except ImportError:
-        print(f"Installing {package}...")
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-
-# Now import the rest of your libraries
-import json
-import urllib.request
-import streamlit as st
-import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.naive_bayes import MultinomialNB
-import matplotlib.pyplot as plt
-import numpy as np
-from datetime import datetime, timedelta
-import time
-import os
-import re
-import threading
-from collections import deque
+# Import libraries with error handling
+try:
+    import json
+    import urllib.request
+    import streamlit as st
+    import pandas as pd
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.naive_bayes import MultinomialNB
+    import matplotlib.pyplot as plt
+    import numpy as np
+    from datetime import datetime, timedelta
+    import time
+    import os
+    import re
+    import threading
+    from collections import deque
+except ImportError as e:
+    import streamlit as st
+    st.error(f"""
+    Missing required dependency: {str(e)}
+    
+    Please make sure you have a requirements.txt file with these packages:
+    - streamlit
+    - scikit-learn
+    - pandas
+    - matplotlib
+    - numpy
+    - urllib3
+    
+    If deploying on Streamlit Cloud, ensure requirements.txt is in your repository.
+    """)
+    st.stop()
 
 # Set up the page
 st.set_page_config(
