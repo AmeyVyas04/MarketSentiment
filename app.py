@@ -1,8 +1,27 @@
-# https://docs.python.org/3/library/json.html
-# This library will be used to parse the JSON data returned by the API.
+# Install required packages if missing
+import subprocess
+import sys
+import importlib
+
+# List of required packages
+required_packages = [
+    'scikit-learn==1.3.2',
+    'pandas==2.0.3',
+    'matplotlib==3.7.2',
+    'numpy==1.24.3'
+]
+
+# Check and install missing packages
+for package in required_packages:
+    package_name = package.split('==')[0]
+    try:
+        importlib.import_module(package_name if package_name != 'scikit-learn' else 'sklearn')
+    except ImportError:
+        print(f"Installing {package}...")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+# Now import the rest of your libraries
 import json
-# https://docs.python.org/3/library/urllib.request.html#module-urllib.request
-# This library will be used to fetch the API.
 import urllib.request
 import streamlit as st
 import pandas as pd
